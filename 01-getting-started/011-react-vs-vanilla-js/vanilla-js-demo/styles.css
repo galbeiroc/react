@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #181c1f;
+  font-family: sans-serif;
+  color: #bdd1d4;
+  margin: 2rem;
+}
+
+header {
+  display: flex;
+  margin: 2rem 0;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+header img {
+  width: 3rem;
+  object-fit: contain;
+}
+
+header h1 {
+	color: #f3e248;
+	margin: 0;
+}
+
+header p {
+	color: #dbd7b1;
+	margin: 0;
+}
+
+#tabs {
+	margin: 2rem 0 0;
+	max-width: 32rem;
+	overflow: hidden;
+}
+
+#tabs menu {
+	display: flex;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+}
+
+#tabs button {
+	background-color: #282f33;
+	border: none;
+	border-bottom-color: #f3e248;
+	border-radius: 4px 4px 0 0;
+	color: #dbd7b1;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 0.85rem;
+	padding: 0.85rem 1rem;
+	transition: all .3s ease-out;
+}
+
+#tabs button:hover,
+#tabs button.active {
+	background-color: #f3e248;
+	color: #282f33;
+}
+
+#tab-content {
+	background-color: #2d3942;
+	border-radius: 0 4px 4px 4px;
+	padding: 1rem;
+}
+
+#tab-content li {
+	margin: 0.75rem 0;
+}
