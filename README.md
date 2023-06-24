@@ -10,3 +10,7 @@ Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Rout
 * It quickly becomes *error-prone*
 * It quickly becomes *hard to mantain* or edit
 * *React* offers a way simpler *Mental Model*
+
+### About This Course
+
+<img title="About This Course" alt="About course" src="/01-getting-started/010-assets/about-course.png">
