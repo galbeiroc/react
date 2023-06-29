@@ -16,3 +16,7 @@ Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Rout
 <img title="About This Course" alt="About course" src="/01-getting-started/010-assets/about-course.png">
 
 React Projects use a Build Process that transform our code.
+
+#### Why use Variables?
+1. Reusability: store value in a variable
+2. Readability: organize our code over several lines
