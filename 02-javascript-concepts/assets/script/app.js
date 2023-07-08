@@ -25,3 +25,31 @@ function combine(a, b, c) {
 }
 
 console.log(combine(3,4, 6));
+
+
+const user = {
+  name: 'galbeiroc',
+  age: 34,
+  greet() {
+    console.log('Hello');
+    console.log(this.name);
+  }
+}
+
+user.greet();
+
+class User {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log('Hi!');
+  }
+}
+
+
+const user1 = new User('Leo', 33);
+console.log(user1);
+user1.greet();
