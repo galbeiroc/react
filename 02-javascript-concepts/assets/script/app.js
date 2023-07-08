@@ -6,6 +6,7 @@
 // console.log(utils.default, utils.abc);
 // console.log(apiKey, content);
 
+// Functions
 function greetUser(username, message = 'Hello') {
   console.log(message, username);
 }
@@ -26,7 +27,7 @@ function combine(a, b, c) {
 
 console.log(combine(3,4, 6));
 
-
+// Objects
 const user = {
   name: 'galbeiroc',
   age: 34,
@@ -53,3 +54,17 @@ class User {
 const user1 = new User('Leo', 33);
 console.log(user1);
 user1.greet();
+
+
+// Arrays
+const hobbies = ['sports', 'cooking', 'reading'];
+console.log(hobbies[0]);
+
+hobbies.push('working');
+console.log(hobbies);
+
+const index = hobbies.findIndex((item) => item === 'sports');
+console.log(index);
+
+const editedHobbies = hobbies.map((item) => item + '!');
+console.log(editedHobbies);
