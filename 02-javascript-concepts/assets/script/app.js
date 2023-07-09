@@ -113,3 +113,12 @@ function greeter(greetFn, name) {
 };
 
 greeter((name) => console.log('Hi '+ name), 'galbeiroc');
+
+function init() {
+  function greet() {
+    console.log('Hi again!');
+  }
+
+  greet();
+}
+init();
