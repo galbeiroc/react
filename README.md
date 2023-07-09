@@ -33,3 +33,29 @@ React is all about components.
 
 React allow us to create re-usable and reactive components components consisting HTML, CSS and JavaScript.
 React uses something which is Declarative approach for buiding these components, that means we dont tell react that a certain HTML element should be created and insertin in a specific place on the user interface as we would be doing it with Vanilla JS. Instead with React we will always define the desired target state(s) and let React figure out the actual JavaScript DOM instructions.
+
+### What is JSX?
+
+JSX Stands for `JavaScript XML`. Because HTML in the end is XML. We can use JSX syntax. Which is not normally supported in the browser.
+
+### How React works?
+
+* Imperative Code
+
+```js
+const paragraph = document.createElement('h2');
+paragraph.textContent = "Let's get started!";
+document.getElementById('root').append(paragraph);
+```
+
+* Declarative Code
+
+```js
+function App() {
+  return (
+    <div>
+      <h2>Let's get started!</h2>
+    </div>
+  );
+}
+```
