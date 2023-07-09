@@ -1,8 +1,8 @@
-## Next-Gen JavaScript - Summary
+# Next-Gen JavaScript - Summary
 
 In this module, I provided a brief introduction into some core next-gen JavaScript features, of course focusing on the ones you'll see the most in this course. Here's a quick summary!
 
-### let & const
+## let & const
 
 Read more about [let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
 
@@ -10,7 +10,7 @@ Read more about [const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 
 `let`  and `const`  basically replace `var` . You use `let`  instead of `var`  and `const`  instead of `var`  if you plan on never re-assigning this "variable" (effectively turning it into a constant therefore).
 
-### ES6 Arrow Functions
+## ES6 Arrow Functions
 
 [Read more](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 
@@ -72,7 +72,7 @@ const returnMe = name => {
 }
 ```
 
-### Exports & Imports
+## Exports & Imports
 
 In React projects (and actually in all modern JavaScript projects), you split your code across multiple JavaScript files - so-called modules. You do this, to keep each file/ module focused and manageable.
 
@@ -175,12 +175,12 @@ person.printMyName();
 console.log(person.species);
 ```
 
-### Spread & Rest Operator
+## Spread & Rest Operator
 
 The spread and rest operators actually use the same syntax: `...`
 Yes, that is the operator - just three dots. It's usage determines whether you're using it as the spread or rest operator.
 
-#### Using the Spread Operator
+### Using the Spread Operator
 
 The spread operator allows you to pull elements out of an array (=> split the array into a list of its elements) or pull the properties out of an object. Here are two examples:
 
@@ -212,7 +212,7 @@ newObject  would then be
 
 The spread operator is extremely useful for cloning arrays and objects. [Since both are reference types (and not primitives)](https://www.youtube.com/watch?v=9ooYYRLdg_g&ab_channel=Academind), copying them safely (i.e. preventing future mutation of the copied original) can be tricky. With the spread operator you have an easy way of creating a (shallow!) clone of the object or array.
 
-### Destructuring
+## Destructuring
 
 Destructuring allows you to easily access the values of arrays or objects and assign them to variables.
 
