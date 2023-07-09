@@ -85,3 +85,14 @@ function storeOrderWith({ id, currency }) { // destructuring
 }
 
 storeOrderWith({ id: 5, currency: "USD", amount: 15.99 });
+
+// spread operator
+const newHobbies = ['hiking'];
+const mergeHobbies = [...hobbies, ...newHobbies];
+console.log(mergeHobbies);
+
+const extendedUser = {
+  isAdmin: true,
+  ...user
+};
+console.log(extendedUser);
