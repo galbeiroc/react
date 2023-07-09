@@ -96,3 +96,20 @@ const extendedUser = {
   ...user
 };
 console.log(extendedUser);
+
+function handleTimeOut() {
+  console.log('Time Out');
+}
+
+const handleTimeOut2 = () => {
+  console.log('Time out.. again');
+}
+
+setTimeout(handleTimeOut, 1000);
+setTimeout(handleTimeOut2, 2000);
+
+function greeter(greetFn, name) {
+  greetFn(name)
+};
+
+greeter((name) => console.log('Hi '+ name), 'galbeiroc');
