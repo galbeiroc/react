@@ -97,6 +97,7 @@ const extendedUser = {
 };
 console.log(extendedUser);
 
+// functions as values
 function handleTimeOut() {
   console.log('Time Out');
 }
@@ -114,6 +115,7 @@ function greeter(greetFn, name) {
 
 greeter((name) => console.log('Hi '+ name), 'galbeiroc');
 
+// functions inside of functions
 function init() {
   function greet() {
     console.log('Hi again!');
@@ -122,3 +124,9 @@ function init() {
   greet();
 }
 init();
+
+let userMessage = 'Hello!!';
+userMessage = userMessage.concat('!!!');
+
+const animals = ['dog', 'cat'];
+animals.push('mouse');
