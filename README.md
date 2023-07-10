@@ -59,3 +59,5 @@ function App() {
   );
 }
 ```
+
+**Note**: A component en React is just a JavaScript function. A special kind of function regarding what it returns.
