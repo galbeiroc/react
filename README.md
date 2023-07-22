@@ -118,3 +118,54 @@ function ExpensiveItem({ date, title, amount }) {
   );
 }
 ```
+
+### Composition
+
+React has special prop, which every component receives, even if we're never setting it explicitly.
+It's the `children` prop. Children is a reserved name. The value of this expecial children prop  will always be the content between the opening and closing tags of our custom components.
+We can build such wrapper components.
+
+```js
+function Card(props) {
+  const classes = `card ${props.className}`;
+
+  return <div className={classes}>{props.children}</div>;
+}
+```
+
+Wrapping the component:
+
+```js
+// ExpenseItem.js
+function ExpensiveItem(props) {
+  return (
+    <Card className="expense-item">
+      <ExpenseDate date={props.date} />
+      <div className="expense-item__description">
+        <h2>{props.title}</h2>
+        <div className="expense-item__price">${props.amount}</div>
+      </div>
+    </Card>
+  );
+}
+
+// Expenses.js
+function Expenses(props) {
+  return (
+    <Card className="expenses">
+      <ExpensiveItem
+        title={props.expenses[0].title}
+        amount={props.expenses[0].amount}
+        date={props.expenses[0].date}
+      />
+      <ExpensiveItem
+        title={props.expenses[1].title}
+        amount={props.expenses[1].amount}
+        date={props.expenses[1].date}
+      />
+    </Card>
+  );
+}
+```
+
+We compose our Expenses and ExpensiveItem components by using Card as a wrapper, by using some uilt-in HTML elements. **Composition** is important we use it all the time when working with React. Whenever we combine components, we are using composition. The important part of compositions is this props `children` feature.

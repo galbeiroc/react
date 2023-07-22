@@ -10,6 +10,7 @@ function App() {
 
   return (
     <div>
+      <h2>Let's Get Started!</h2>
       <Expenses expenses={expenses} />
     </div>
   );
