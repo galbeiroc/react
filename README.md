@@ -90,3 +90,31 @@ function ExpensiveItem(props) {
   );
 }
 ```
+
+There are alternatives ways of passing & receiving/handling `props`.
+
+```js
+<ExpensiveItem title={expenses[0].title} amount={expenses[0].amount} date={expenses[0].date} />
+```
+
+or
+
+```js
+<ExpensiveItem expense={expenses[0]} />
+```
+
+Receiving props by object destructuring.
+
+```js
+function ExpensiveItem({ date, title, amount }) {
+  return (
+    <div className="expense-item">
+      <div>{date.toISOString()}</div>
+      <div className='expense-item__description'>
+        <h2>{title}</h2>
+        <div className='expense-item__price'>${amount}</div>
+      </div>
+    </div>
+  );
+}
+```
