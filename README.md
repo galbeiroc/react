@@ -61,3 +61,32 @@ function App() {
 ```
 
 **Note**: A component en React is just a JavaScript function. A special kind of function regarding what it returns.
+
+### Props
+
+Props are the `attributes` of our components. We can pass data to the custom component by adding a attribute. We can then get access to all these attributes. This concept is just called props in React.
+
+Passing data via props:
+
+```js
+<div>
+  <h2>Let's get started!</h2>
+  <ExpensiveItem title={expenses[0].title} amount={expenses[0].amount} date={expenses[0].date} />
+</div>
+```
+
+Getting data via props:
+
+```js
+function ExpensiveItem(props) {
+  return (
+    <div className="expense-item">
+      <div>{props.date.toISOString()}</div>
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+        <div className='expense-item__price'>${props.amount}</div>
+      </div>
+    </div>
+  );
+}
+```
