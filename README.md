@@ -169,3 +169,16 @@ function Expenses(props) {
 ```
 
 We compose our Expenses and ExpensiveItem components by using Card as a wrapper, by using some uilt-in HTML elements. **Composition** is important we use it all the time when working with React. Whenever we combine components, we are using composition. The important part of compositions is this props `children` feature.
+
+How works React underhood code when we use `JSX`:
+
+```js
+function App() {
+  return React.createElement(
+    "div",
+    {},
+    React.createElement("h2", {}, "Let's get started!"),
+    React.createElement(Expenses, { expenses })
+  );
+}
+```
