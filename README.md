@@ -195,3 +195,18 @@ React exposes default events as props which start with `on`.
 ```
 
 When the JSX code returned, it's not executing `clickHandler`. When the click occurs it is when JSX code is evaluated.
+
+### State
+
+State is actually not a React specific concept but it is a key concept in React as well.
+Regular variables like this `let title = props.title;` not triggering such a re-evaluation. React doesn't care about it. If we have a variable inside our component and that variable changes. React ignores it.
+
+#### usetate
+
+This a function provided by the React library and this function allow us to define values as state where changes to these values should reflect in the component function being called again. The function `useState` returns an array where the first valueis the variable itself and the second element in the array is that updating function.
+
+```js
+const [title, setTitle] = useState(props.title);
+```
+
+We want to call the component again when our state changes by calling this state updating function `setTitle` thats happening. Because by calling this function, we are telling React taht we assign a new value to this state and that then also tells React that the component with `useState` should be re-evaluated.
