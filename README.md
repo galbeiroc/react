@@ -182,3 +182,8 @@ function App() {
   );
 }
 ```
+
+### React State & Working With Events
+
+* Handling Events: Handling events like clicks so on. We can ensure that what's visible on the screen changes.
+* Updating the UI & Working with "State" we can manipulate the state and transition from state A to State B, if we want to.
