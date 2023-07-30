@@ -211,10 +211,9 @@ const [title, setTitle] = useState(props.title);
 
 We want to call the component again when our state changes by calling this state updating function `setTitle` thats happening. Because by calling this function, we are telling React taht we assign a new value to this state and that then also tells React that the component with `useState` should be re-evaluated.
 
-#### Controlled vs Uncontrolled
+#### Controlled vs Uncontrolled Components
 
 In React, `controlled` components refer to components that have their state and behavior controlled by the parent component. These components rely on props passed down from the parent component to update their state and behavior.
-
 
 ```js
 const ControlledInput = ({ value, onChange }) => (
@@ -270,3 +269,28 @@ const LoginForm = () => {
 ```
 
 In this example, the `UncontrolledInput` component maintains its own internal state, and when the user types into the input, it calls the `setValue` function and updates the state, which in turn updates the input value.
+
+#### Stateful vs Stateless Components
+
+In React, a stateful component is a component that holds some state.
+
+```js
+// This is a stateful Parent element.
+function Yoda() {
+  const [ name, setName ] = useState("Toyoda")
+
+  // The child component will render information passed down from the parent component.
+  return <BabyYoda name={name} />;
+}
+```
+
+Stateless components, by contrast, have no state.
+
+```js
+// This is a stateless child component.
+function BabyYoda(props) {
+  return <h2>I am {props.name}!</h2>;
+}
+```
+
+*Note*: that both types of components can use props.
