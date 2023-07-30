@@ -182,3 +182,115 @@ function App() {
   );
 }
 ```
+
+### React State & Working With Events
+
+* Handling Events: Handling events like clicks so on. We can ensure that what's visible on the screen changes.
+* Updating the UI & Working with "State" we can manipulate the state and transition from state A to State B, if we want to.
+
+React exposes default events as props which start with `on`.
+
+```js
+<button onClick={clickHnadler}>Change Title</button>
+```
+
+When the JSX code returned, it's not executing `clickHandler`. When the click occurs it is when JSX code is evaluated.
+
+### State
+
+State is actually not a React specific concept but it is a key concept in React as well.
+Regular variables like this `let title = props.title;` not triggering such a re-evaluation. React doesn't care about it. If we have a variable inside our component and that variable changes. React ignores it.
+
+#### usetate
+
+This a function provided by the React library and this function allow us to define values as state where changes to these values should reflect in the component function being called again. The function `useState` returns an array where the first valueis the variable itself and the second element in the array is that updating function.
+
+```js
+const [title, setTitle] = useState(props.title);
+```
+
+We want to call the component again when our state changes by calling this state updating function `setTitle` thats happening. Because by calling this function, we are telling React taht we assign a new value to this state and that then also tells React that the component with `useState` should be re-evaluated.
+
+#### Controlled vs Uncontrolled Components
+
+In React, `controlled` components refer to components that have their state and behavior controlled by the parent component. These components rely on props passed down from the parent component to update their state and behavior.
+
+```js
+const ControlledInput = ({ value, onChange }) => (
+  <input value={value} onChange={(e) => onChange(e.target.value)} />
+);
+
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <form>
+      <ControlledInput value={email} onChange={setEmail} placeholder="Email" />
+      <ControlledInput
+        value={password}
+        onChange={setPassword}
+        placeholder="Password"
+      />
+      <button>Submit</button>
+    </form>
+  );
+};
+```
+
+In this example, the `ControlledInput` component receives its current value and an `onChange` callback via props. The `LoginForm` component maintains the state of email and password, and when the user types into the inputs, it calls the `onChange` callback and updates the state, which in turn updates the input values.
+
+An uncontrolled functional component is a component that maintains its own internal state. For example:
+
+`Uncontrolled` components refer to components that manage their own state internally. They use a ref to access the DOM element's current value and update the state accordingly.
+
+```js
+const UncontrolledInput = ({ defaultValue, placeholder }) => {
+  const [value, setValue] = useState(defaultValue);
+
+  return (
+    <input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      placeholder={placeholder}
+    />
+  );
+};
+
+const LoginForm = () => {
+  return (
+    <form>
+      <UncontrolledInput defaultValue="" placeholder="Email" />
+      <UncontrolledInput defaultValue="" placeholder="Password" />
+      <button>Submit</button>
+    </form>
+  );
+};
+```
+
+In this example, the `UncontrolledInput` component maintains its own internal state, and when the user types into the input, it calls the `setValue` function and updates the state, which in turn updates the input value.
+
+#### Stateful vs Stateless Components
+
+In React, a stateful component is a component that holds some state.
+
+```js
+// This is a stateful Parent element.
+function Yoda() {
+  const [ name, setName ] = useState("Toyoda")
+
+  // The child component will render information passed down from the parent component.
+  return <BabyYoda name={name} />;
+}
+```
+
+Stateless components, by contrast, have no state.
+
+```js
+// This is a stateless child component.
+function BabyYoda(props) {
+  return <h2>I am {props.name}!</h2>;
+}
+```
+
+*Note*: that both types of components can use props.
