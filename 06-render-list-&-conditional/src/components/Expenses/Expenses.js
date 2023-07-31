@@ -13,6 +13,8 @@ const Expenses = (props) => {
     console.log("expenses.js", selectedYear);
   };
 
+  console.log('props', props.expenses);
+
   return (
     <div>
       <Card className="expenses">

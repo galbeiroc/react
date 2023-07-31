@@ -3,7 +3,7 @@ import "./ExpenseForm.css";
 
 const ExpenseForm = ({ onSaveExpenseData }) => {
   const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredAmount, setEenteredAmount] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   /* const [userInput, setUserInput] = useState({
     enteredTitle: "",
@@ -39,7 +39,7 @@ const ExpenseForm = ({ onSaveExpenseData }) => {
     if (identifier === "title") {
       setEnteredTitle(value);
     } else if (identifier === "amount") {
-      setEenteredAmount(value);
+      setEnteredAmount(value);
     } else {
       setEnteredDate(value);
     }
@@ -55,7 +55,7 @@ const ExpenseForm = ({ onSaveExpenseData }) => {
     }
     onSaveExpenseData(expenseData);
     setEnteredTitle('');
-    setEenteredAmount('');
+    setEnteredAmount('');
     setEnteredDate('');
   }
 
