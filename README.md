@@ -294,3 +294,12 @@ function BabyYoda(props) {
 ```
 
 *Note*: that both types of components can use props.
+
+#### Keys
+
+The prop `key` is used by React to keep track of the elements that have changed, that is, they are used to give an "identity" to the elements of the list.
+
+##### Rules of keys
+
+* Keys must be unique among siblings. However, it’s okay to use the same keys for JSX nodes in different arrays.
+* Keys must not change or that defeats their purpose! Don’t generate them while rendering.
