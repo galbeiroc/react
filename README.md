@@ -303,3 +303,93 @@ The prop `key` is used by React to keep track of the elements that have changed,
 
 * Keys must be unique among siblings. However, it’s okay to use the same keys for JSX nodes in different arrays.
 * Keys must not change or that defeats their purpose! Don’t generate them while rendering.
+
+#### Condtional Rendering
+
+Your components will often need to display different things depending on different conditions. In React, you can conditionally render JSX using JavaScript syntax like `if` statements, `&&,` and `? :` operators.
+
+* Conditional (ternary) operator (if)
+
+```js
+const Expenses = (props) => {
+  const [filtered, setFiltered] = useState("2020");
+
+  const filtereChangeHandler = (selectedYear) => {
+    setFiltered(selectedYear);
+  };
+
+  const filteredExpenses = props.expenses.filter(
+    (expense) => filtered === expense.date.getFullYear().toString()
+  );
+
+  let expensesContent = <p>Expenses not found.</p>;
+
+  if (filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((expense) => (
+      <ExpensiveItem
+        key={expense.id}
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ))
+  }
+
+  return (
+    <>
+      <Card className="expenses">
+        <ExpensesFilter
+          filtered={filtered}
+          onChangeFilter={filtereChangeHandler}
+        />
+        {expensesContent}
+      </Card>
+    </>
+  );
+};
+
+export default Expenses;
+```
+
+* Conditional (ternary) operator (? :)
+
+```js
+<Card className="expenses">
+  <ExpensesFilter
+    filtered={filtered}
+    onChangeFilter={filtereChangeHandler}
+  />
+  {filteredExpenses.length === 0 ? (
+    <p>Expenses not found.</p>
+  ) : (
+    filteredExpenses.map((expense) => (
+      <ExpensiveItem
+        key={expense.id}
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ))
+  )}
+</Card>
+```
+
+* Logical AND operator (&&)
+
+```js
+<Card className="expenses">
+  <ExpensesFilter
+    filtered={filtered}
+    onChangeFilter={filtereChangeHandler}
+  />
+  {filteredExpenses.length === 0 && <p>Expenses not found.</p>}
+  {filteredExpenses.length > 0 && filteredExpenses.map((expense) => (
+    <ExpensiveItem
+      key={expense.id}
+      title={expense.title}
+      amount={expense.amount}
+      date={expense.date}
+    />
+  ))}
+</Card>
+```
