@@ -393,3 +393,9 @@ export default Expenses;
   ))}
 </Card>
 ```
+
+#### Styling Components
+
+* Conditional & Dynamic Styles
+* Styled Components
+* CSS Modules
