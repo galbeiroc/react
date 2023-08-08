@@ -400,7 +400,8 @@ export default Expenses;
 * Styled Components
 * CSS Modules
 
-inline style
+* Dynamic inline styles
+Inline styles, e.g. `<div style={{ opacity: 1 }}>`
 
 ```js
 <form onSubmit={formSubmitHandler}>
@@ -411,6 +412,22 @@ inline style
         borderColor: !isValid ? "red" : "#ccc",
         background: !isValid ? "salmon" : "transparent",
       }}
+      type="text"
+      value={enteredValue}
+      onChange={goalInputChangeHandler}
+    />
+  </div>
+  <Button type="submit">Add Goal</Button>
+</form>
+```
+
+* Dynamic Classes styles
+
+```js
+<form onSubmit={formSubmitHandler}>
+  <div className={`form-control ${!isValid ? 'invalid' : ''}`}>
+    <label>Course Goal</label>
+    <input
       type="text"
       value={enteredValue}
       onChange={goalInputChangeHandler}
