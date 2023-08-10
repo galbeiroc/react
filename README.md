@@ -393,3 +393,190 @@ export default Expenses;
   ))}
 </Card>
 ```
+
+#### Styling Components
+
+1. Conditional & Dynamic Styles
+
+1.1. Dynamic inline styles
+Inline styles, e.g. `<div style={{ opacity: 1 }}>`
+
+```js
+<form onSubmit={formSubmitHandler}>
+  <div className="form-control">
+    <label style={{ color: !isValid ? "red" : "black" }}>Course Goal</label>
+    <input
+      style={{
+        borderColor: !isValid ? "red" : "#ccc",
+        background: !isValid ? "salmon" : "transparent",
+      }}
+      type="text"
+      value={enteredValue}
+      onChange={goalInputChangeHandler}
+    />
+  </div>
+  <Button type="submit">Add Goal</Button>
+</form>
+```
+
+1.2. Dynamic Classes styles
+
+```js
+<form onSubmit={formSubmitHandler}>
+  <div className={`form-control ${!isValid ? 'invalid' : ''}`}>
+    <label>Course Goal</label>
+    <input
+      type="text"
+      value={enteredValue}
+      onChange={goalInputChangeHandler}
+    />
+  </div>
+  <Button type="submit">Add Goal</Button>
+</form>
+```
+
+2. Styled Components
+
+2.1 styled-components utilises tagged template literals to style your components.
+
+```js
+// Create a Title component that'll render an <h1> tag with some styles
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: #BF4F74;
+`;
+
+// Create a Wrapper component that'll render a <section> tag with some styles
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
+
+// Use Title and Wrapper like any other React component – except they're styled!
+render(
+  <Wrapper>
+    <Title>
+      Hello World!
+    </Title>
+  </Wrapper>
+);
+```
+
+2.2. Styled Components & Dynamic Props
+
+```js
+const FormControl = styled.div`
+  margin: 0.5rem 0;
+
+  & label {
+    color: ${props => props.invalid ? 'red' : 'black'};
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  & input {
+    display: block;
+    width: 100%;
+    border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
+    background: ${props => (props.invalid ? 'rgb(252, 198, 198)' : 'transparent')};
+    border-color: ${props => (props.invalid ? 'red' : 'gray')};
+    border-radius: 5px;
+    font: inherit;
+    line-height: 1.5rem;
+    padding: 0 0.25rem;
+  }
+
+  & input:focus {
+    outline: none;
+    background: #fad0ec;
+    border-color: #8b005d;
+  }
+`;
+
+const CourseInput = (props) => {
+  const [isValid, setIsValid] = useState(true);
+
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <FormControl invalid={!isValid}>
+        <label>Course Goal</label>
+        <input
+          type="text"
+          value={enteredValue}
+          onChange={goalInputChangeHandler}
+        />
+      </FormControl>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
+```
+
+2.3. Styled Components media queries
+
+```js
+const Button = styled.button`
+  width: 100%;
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #8b005d;
+  color: white;
+  background: #8b005d;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    width: auto;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover,
+  &:active {
+    background: #ac0e77;
+    border-color: #ac0e77;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+  }
+`;
+```
+
+1. CSS Modules
+
+3.1. Using css modules add to the class unique hash. The css file needs to be like this: `Button.module.css`.
+
+```js
+import styles from './Button.module.css';
+
+const Button = props => {
+  return (
+    <button type={props.type} className={styles.button} onClick={props.onClick}>
+      {props.children}
+    </button>
+  );
+};
+
+export default Button;
+```
+
+3.2. Dynamic styles CSS Modules
+
+```js
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
+        <label>Course Goal</label>
+        <input
+          type="text"
+          value={enteredValue}
+          onChange={goalInputChangeHandler}
+        />
+      </div>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
+```
