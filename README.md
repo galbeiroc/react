@@ -514,7 +514,7 @@ const CourseInput = (props) => {
 };
 ```
 
-2.3 Styled Components media queries
+2.3. Styled Components media queries
 
 ```js
 const Button = styled.button`
@@ -544,8 +544,9 @@ const Button = styled.button`
 `;
 ```
 
-3. CSS Modules
-Using css modules add to the class unique hash. The css file needs to be like this: `Button.module.css`.
+1. CSS Modules
+
+3.1. Using css modules add to the class unique hash. The css file needs to be like this: `Button.module.css`.
 
 ```js
 import styles from './Button.module.css';
@@ -559,4 +560,23 @@ const Button = props => {
 };
 
 export default Button;
+```
+
+3.2. Dynamic styles CSS Modules
+
+```js
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
+        <label>Course Goal</label>
+        <input
+          type="text"
+          value={enteredValue}
+          onChange={goalInputChangeHandler}
+        />
+      </div>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
 ```
