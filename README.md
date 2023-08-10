@@ -396,11 +396,9 @@ export default Expenses;
 
 #### Styling Components
 
-* Conditional & Dynamic Styles
-* Styled Components
-* CSS Modules
+1. Conditional & Dynamic Styles
 
-* Dynamic inline styles
+1.1. Dynamic inline styles
 Inline styles, e.g. `<div style={{ opacity: 1 }}>`
 
 ```js
@@ -421,7 +419,7 @@ Inline styles, e.g. `<div style={{ opacity: 1 }}>`
 </form>
 ```
 
-* Dynamic Classes styles
+1.2. Dynamic Classes styles
 
 ```js
 <form onSubmit={formSubmitHandler}>
@@ -437,9 +435,9 @@ Inline styles, e.g. `<div style={{ opacity: 1 }}>`
 </form>
 ```
 
-* Styled Components
+2. Styled Components
 
-styled-components utilises tagged template literals to style your components.
+2.1 styled-components utilises tagged template literals to style your components.
 
 ```js
 // Create a Title component that'll render an <h1> tag with some styles
@@ -463,4 +461,55 @@ render(
     </Title>
   </Wrapper>
 );
+```
+
+2.2. Styled Components & Dynamic Props
+
+```js
+const FormControl = styled.div`
+  margin: 0.5rem 0;
+
+  & label {
+    color: ${props => props.invalid ? 'red' : 'black'};
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  & input {
+    display: block;
+    width: 100%;
+    border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
+    background: ${props => (props.invalid ? 'rgb(252, 198, 198)' : 'transparent')};
+    border-color: ${props => (props.invalid ? 'red' : 'gray')};
+    border-radius: 5px;
+    font: inherit;
+    line-height: 1.5rem;
+    padding: 0 0.25rem;
+  }
+
+  & input:focus {
+    outline: none;
+    background: #fad0ec;
+    border-color: #8b005d;
+  }
+`;
+
+const CourseInput = (props) => {
+  const [isValid, setIsValid] = useState(true);
+
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <FormControl invalid={!isValid}>
+        <label>Course Goal</label>
+        <input
+          type="text"
+          value={enteredValue}
+          onChange={goalInputChangeHandler}
+        />
+      </FormControl>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
 ```
