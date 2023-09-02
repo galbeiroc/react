@@ -580,3 +580,9 @@ export default Button;
   );
 };
 ```
+
+#### Debugging React Apps
+
+* Understanding Error Messages
+* Debugging & Analizyng React Apps
+* Using the React DevTools
