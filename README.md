@@ -597,6 +597,8 @@ src/App.js
 
 * Debugging & Analizyng React Apps
 
-<img title="About This Course" alt="About course" src="./08-debugging-react-apps/src/assets/code%20flow%20warning.png">
+<img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/code%20flow%20warning.png">
+
+We can use **break points**. Which are another useful tool for analyzing our code for understanding it and for finding fixing errors like that.
 
 * Using the React DevTools
