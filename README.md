@@ -583,6 +583,17 @@ export default Button;
 
 #### Debugging React Apps
 
-* Understanding Error Messages
+* Understanding Error Messages: Something when write code, we get errors. Errors which React catches or the React development process catches and froze at us for example this parsiing error.
+`
+src/App.js
+  Line 43:6:  Parsing error: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>?
+`
+
+Another example is type:
+`
+src/App.js
+  Line 41:33:  'addGoalsHandler' is not defined
+`
+
 * Debugging & Analizyng React Apps
 * Using the React DevTools
