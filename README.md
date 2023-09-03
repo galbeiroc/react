@@ -596,4 +596,7 @@ src/App.js
 `
 
 * Debugging & Analizyng React Apps
+
+<img title="About This Course" alt="About course" src="./08-debugging-react-apps/src/assets/code%20flow%20warning.png">
+
 * Using the React DevTools
