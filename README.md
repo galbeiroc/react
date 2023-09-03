@@ -584,6 +584,7 @@ export default Button;
 #### Debugging React Apps
 
 * Understanding Error Messages: Something when write code, we get errors. Errors which React catches or the React development process catches and froze at us for example this parsiing error.
+
 `
 src/App.js
   Line 43:6:  Parsing error: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>?
@@ -597,8 +598,10 @@ src/App.js
 
 * Debugging & Analizyng React Apps
 
-<img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/code%20flow%20warning.png">
+<img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/code flow warning.png">
 
 We can use **break points**. Which are another useful tool for analyzing our code for understanding it and for finding fixing errors like that.
 
-* Using the React DevTools
+* Using the React DevTools: we need to install *React Developer Tools* extension for the browser. Then in the browser we have to new options `Components` and `Profiler`.
+
+<img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/react devtools.png">
