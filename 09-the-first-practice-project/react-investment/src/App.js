@@ -26,14 +26,14 @@ function App() {
         yearlyContribution: yearlyContribution,
       });
     }
-
+    console.log(yearlyData);
     // do something with yearlyData ...
   };
 
   return (
     <div>
       <Header />
-      <Form />
+      <Form  calculateHandler={calculateHandler} />
 
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}

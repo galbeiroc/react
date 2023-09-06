@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-const Form = () => {
-  const [userInput, setUserInput] = useState({
-    currentSavings: 0,
-    yearlyContribution: 0,
-    expectedReturn: 0,
-    duration: 0,
-  });
+const initialState = {
+  'current-savings': 0,
+  'yearly-contribution': 0,
+  'expected-return': 0,
+  duration: 0,
+}
+
+const Form = ({ calculateHandler }) => {
+  const [userInput, setUserInput] = useState(initialState);
 
   const onChangeHandler = ({ target: { name, value } }) => {
     setUserInput((prevState) => ({
@@ -15,17 +17,26 @@ const Form = () => {
     }));
   };
 
-  console.log(userInput);
+  const onReset = () => {
+    setUserInput(initialState);
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    calculateHandler(userInput);
+  }
+
+  // console.log(userInput);
 
   return (
-    <form className="form">
+    <form className="form" onSubmit={onSubmit}>
       <div className="input-group">
         <p>
           <label htmlFor="current-savings">Current Savings ($)</label>
           <input
             type="number"
             id="current-savings"
-            name="currentSavings"
+            name="current-savings"
             onChange={onChangeHandler}
           />
         </p>
@@ -34,7 +45,7 @@ const Form = () => {
           <input
             type="number"
             id="yearly-contribution"
-            name="yearlyContribution"
+            name="yearly-contribution"
             onChange={onChangeHandler}
           />
         </p>
@@ -47,7 +58,7 @@ const Form = () => {
           <input
             type="number"
             id="expected-return"
-            name="expectedReturn"
+            name="expected-return"
             onChange={onChangeHandler}
           />
         </p>
@@ -62,7 +73,7 @@ const Form = () => {
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt">
+        <button type="reset" className="buttonAlt" onClick={onReset}>
           Reset
         </button>
         <button type="submit" className="button">
