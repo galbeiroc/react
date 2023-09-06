@@ -1,4 +1,4 @@
-const ResultTable = () => {
+const ResultsTable = () => {
   return (
     <table className="result">
       <thead>
@@ -23,4 +23,4 @@ const ResultTable = () => {
   );
 };
 
-export default ResultTable;
+export default ResultsTable;

@@ -1,6 +1,6 @@
-import Form from './components/Form';
-import Header from './components/Header';
-import ResultTable from './components/ResultTable';
+import Form from './components/Form/Form';
+import Header from './components/Header/Header';
+import ResultsTable from './components/ResultsTable/ResultsTable';
 
 function App() {
   const calculateHandler = (userInput) => {
@@ -38,7 +38,7 @@ function App() {
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}
 
-      <ResultTable />
+      <ResultsTable />
     </div>
   );
 }
