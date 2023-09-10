@@ -1,0 +1,36 @@
+.form {
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 30%;
+  border-radius: 5px;
+  border: 1px solid rgb(87, 166, 245);
+  font-size: 1rem;
+  padding: .5rem;
+  outline: none;
+}
+
+input:focus {
+  border: 2px solid rgb(85, 146, 237);
+}
