@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 const initialState = {
-  'current-savings': 0,
-  'yearly-contribution': 0,
-  'expected-return': 0,
-  duration: 0,
+  'current-savings': 10000,
+  'yearly-contribution': 1200,
+  'expected-return': 7,
+  duration: 12,
 }
 
 const Form = ({ calculateHandler }) => {
