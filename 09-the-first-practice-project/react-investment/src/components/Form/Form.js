@@ -37,6 +37,7 @@ const Form = ({ calculateHandler }) => {
             type="number"
             id="current-savings"
             name="current-savings"
+            value={userInput['current-savings']}
             onChange={onChangeHandler}
           />
         </p>
@@ -46,6 +47,7 @@ const Form = ({ calculateHandler }) => {
             type="number"
             id="yearly-contribution"
             name="yearly-contribution"
+            value={userInput['yearly-contribution']}
             onChange={onChangeHandler}
           />
         </p>
@@ -59,6 +61,7 @@ const Form = ({ calculateHandler }) => {
             type="number"
             id="expected-return"
             name="expected-return"
+            value={userInput['expected-return']}
             onChange={onChangeHandler}
           />
         </p>
@@ -68,6 +71,7 @@ const Form = ({ calculateHandler }) => {
             type="number"
             id="duration"
             name="duration"
+            value={userInput['duration']}
             onChange={onChangeHandler}
           />
         </p>
