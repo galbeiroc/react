@@ -9,7 +9,7 @@
   width: 20%;
   height: 35px;
   padding: 5px;
-  transition: all .5s ease-out;;
+  transition: all .5s ease-in;
 }
 
 .btn:hover {

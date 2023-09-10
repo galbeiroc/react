@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./AddUser.module.css";
 import Button from "../Button/Button";
 
-const AddUser = ({ handleUsers }) => {
+const AddUser = ({ handleUsers, handleModal }) => {
   const [userIput, setUserInput] = useState({
     userName: "",
     age: "",
@@ -17,9 +17,14 @@ const AddUser = ({ handleUsers }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Tested");
-    handleUsers(userIput);
-    setUserInput({ userName: "", age: "" });
+
+    if (!userIput.age) {
+      handleModal(true);
+    } else {
+      handleUsers(userIput);
+      setUserInput({ userName: "", age: "" });
+    }
+
   };
 
   return (
