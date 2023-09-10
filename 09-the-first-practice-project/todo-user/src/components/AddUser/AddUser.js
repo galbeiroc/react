@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./AddUser.module.css";
 import Button from "../Button/Button";
 
-const AddUser = () => {
+const AddUser = ({ handleUsers }) => {
   const [userIput, setUserInput] = useState({
     userName: "",
     age: "",
@@ -11,15 +11,16 @@ const AddUser = () => {
   const onChangeHandler = ({ target: { name, value } }) => {
     setUserInput((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: name === "userName" ? value : +value,
     }));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Tested');
+    console.log("Tested");
+    handleUsers(userIput);
+    setUserInput({ userName: "", age: "" });
   };
-
 
   return (
     <form className={classes.form} onSubmit={onSubmit}>
@@ -41,9 +42,7 @@ const AddUser = () => {
           onChange={onChangeHandler}
         />
       </div>
-      <Button type='submit'>
-        Add User
-      </Button>
+      <Button type="submit">Add User</Button>
     </form>
   );
 };
