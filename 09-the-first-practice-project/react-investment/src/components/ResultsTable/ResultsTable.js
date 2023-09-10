@@ -1,3 +1,5 @@
+import classes from './ResultsTable.module.css';
+
 const formatter = Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -7,7 +9,7 @@ const formatter = Intl.NumberFormat("en-US", {
 
 const ResultsTable = ({ data, initialInvestment }) => {
   return (
-    <table className="result">
+    <table className={classes.result}>
       <thead>
         <tr>
           <th>Year</th>
