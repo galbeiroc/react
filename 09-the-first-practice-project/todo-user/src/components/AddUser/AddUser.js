@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classes from "./AddUser.module.css";
+import Button from "../Button/Button";
 
 const AddUser = () => {
   const [userIput, setUserInput] = useState({
@@ -13,9 +14,15 @@ const AddUser = () => {
       [name]: value,
     }));
   };
-  console.log(userIput);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log('Tested');
+  };
+
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={onSubmit}>
       <div className={classes["input-group"]}>
         <label>Username</label>
         <input
@@ -34,6 +41,9 @@ const AddUser = () => {
           onChange={onChangeHandler}
         />
       </div>
+      <Button type='submit'>
+        Add User
+      </Button>
     </form>
   );
 };
