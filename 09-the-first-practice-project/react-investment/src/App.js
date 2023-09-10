@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import Form from './components/Form/Form';
 import Header from './components/Header/Header';
 import ResultsTable from './components/ResultsTable/ResultsTable';
 
 function App() {
+  const [userInput, setUserInput] = useState(null);
+
   const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
+    setUserInput(userInput);
+  };
 
-    const yearlyData = []; // per-year results
+  const yearlyData = []; // per-year results
 
+  if (userInput) {
     let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
     const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
     const expectedReturn = +userInput['expected-return'] / 100;
@@ -26,9 +30,7 @@ function App() {
         yearlyContribution: yearlyContribution,
       });
     }
-    console.log(yearlyData);
-    // do something with yearlyData ...
-  };
+  }
 
   return (
     <div>
