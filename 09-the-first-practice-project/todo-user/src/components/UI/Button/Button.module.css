@@ -1,0 +1,19 @@
+.btn {
+  background-color: #9622de;
+  color: aliceblue;
+  cursor: pointer;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  width: 20%;
+  height: 35px;
+  padding: 5px;
+  transition: all .5s ease-in;
+}
+
+.btn:hover {
+  background-color: aliceblue;
+  color: #9622de;
+  border: 1px #9622de solid;
+}
