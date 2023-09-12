@@ -1,0 +1,16 @@
+.content {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.content ul {
+  margin: 0;
+  padding: 0;
+}
+
+.content li {
+  border: 2px solid grey;
+  padding: 10px 5px;
+  margin-bottom: 5px;
+  list-style: none;
+}

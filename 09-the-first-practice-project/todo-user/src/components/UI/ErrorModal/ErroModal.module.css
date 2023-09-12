@@ -1,33 +1,26 @@
 .modal {
-  font-family: 'Roboto Condensed', sans-serif;
   height: 100vh;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1;
-  background-color: rgba(0,0,0,0.4);
-  padding-top: 250px;
+  background-color: rgba(0,0,0,0.75);
+  padding-top: 243px;
 }
 
 .content-modal {
-  background-color: aliceblue;
-  color: white;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Roboto Condensed', sans-serif;
   justify-content: space-between;
-  font-size: 16px;
-  border-radius: 5px;
   height: 200px;
   width: 80%;
-  margin: auto;
 }
 
 .header-modal {
   font-size: 20px;
   background-color: blueviolet;
   height: 50px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   padding: 10px;
 }
 
