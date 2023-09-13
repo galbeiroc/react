@@ -605,3 +605,33 @@ We can use **break points**. Which are another useful tool for analyzing our cod
 * Using the React DevTools: we need to install *React Developer Tools* extension for the browser. Then in the browser we have to new options `Components` and `Profiler`.
 
 <img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/react devtools.png">
+
+#### Fragments, Portals & Refs
+
+* Fragments: We can't return more than one "root" JSX element (we also can't store more than one "root" JSX element in a variable). Fragment is an empty wrapper component. It doesn't render any real `HTML` element to the DOM.
+
+There are two ways to use fragments:
+
+```js
+return (
+  <React.Fragment>
+    <h1>Hi There!</h1>
+    <p>This does work</p>
+  </React.Fragment>
+)
+```
+
+```js
+return (
+  <>
+    <h1>Hi There!</h1>
+    <p>This does work</p>
+  </>
+)
+```
+
+This is how to work fragments under the hood.
+
+```js
+const wrapper = props => props.children;
+```
