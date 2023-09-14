@@ -608,6 +608,8 @@ We can use **break points**. Which are another useful tool for analyzing our cod
 
 #### Fragments, Portals & Refs
 
+This feature help us write cleaner HTML code.
+
 * Fragments: We can't return more than one "root" JSX element (we also can't store more than one "root" JSX element in a variable). Fragment is an empty wrapper component. It doesn't render any real `HTML` element to the DOM.
 
 There are two ways to use fragments:
@@ -634,4 +636,61 @@ This is how to work fragments under the hood.
 
 ```js
 const wrapper = props => props.children;
+```
+
+* Portals: Let's us render some children into a different part of the DOM.
+`createPortal(children, domNode, key?)`
+
+// index.html
+
+```html
+<div id="backdrop-root"></div>
+<div id="overlay-root"></div>
+<div id="root"></div>
+```
+
+// ErrorModal
+
+```js
+import { createPortal } from "react-dom";
+import Button from "../Button/Button";
+import Card from "../Card/Card";
+import classes from "./ErroModal.module.css";
+
+const Backdrop = ({ onErrorHandler }) => {
+  return <div className={classes.modal} onClick={onErrorHandler} />;
+};
+
+const ModalOverlay = ({ message, title, onErrorHandler }) => {
+  return (
+    <Card classes={classes["content-modal"]}>
+      <div className={classes["header-modal"]}>{title}</div>
+      <div className={classes["body-modal"]}>{message}</div>
+      <div className={classes["footer-modal"]}>
+        <Button onClick={onErrorHandler}>Cerrar</Button>
+      </div>
+    </Card>
+  );
+};
+
+const ErrorModal = ({ message, title, onErrorHandler }) => {
+  return (
+    <>
+      {createPortal(
+        <Backdrop onErrorHandler={onErrorHandler} />,
+        document.getElementById("backdrop-root")
+      )}
+      {createPortal(
+        <ModalOverlay
+          message={message}
+          title={title}
+          onErrorHandler={onErrorHandler}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </>
+  );
+};
+
+export default ErrorModal;
 ```
