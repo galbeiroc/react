@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import classes from "./AddUser.module.css";
 import Button from "../../UI/Button/Button";
 import Card from "../../UI/Card/Card";
@@ -6,25 +6,18 @@ import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 import Wrapper from "../../Helpers/Wrapper";
 
 const AddUser = ({ handleUsers }) => {
-  const [userIput, setUserInput] = useState({
-    userName: "",
-    age: "",
-  });
+  const usernameInputRef = useRef();
+  const ageInputRef = useRef();
   const [error, setError] = useState(null);
-
-  const onChangeHandler = ({ target: { name, value } }) => {
-    setUserInput((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredAge  = ageInputRef.current.value;
 
     if (
-      userIput.age.trim().length === 0 ||
-      userIput.userName.trim().length === 0
+      enteredUsername.trim().length === 0 ||
+      enteredAge.trim().length === 0
     ) {
       setError({
         title: "Invalid Input",
@@ -32,7 +25,7 @@ const AddUser = ({ handleUsers }) => {
       });
       return;
     }
-    if (+userIput.age < 1) {
+    if (+enteredAge < 1) {
       setError({
         title: "Invalid Age",
         message: "Please enter valid age ( > 0).",
@@ -40,8 +33,9 @@ const AddUser = ({ handleUsers }) => {
       return;
     }
 
-    handleUsers(userIput);
-    setUserInput({ userName: "", age: "" });
+    handleUsers({ userName: enteredUsername, age: enteredAge});
+    usernameInputRef.current.value = '';
+    ageInputRef.current.value = '';
   };
 
   const onErrorHandler = () => {
@@ -65,8 +59,7 @@ const AddUser = ({ handleUsers }) => {
               type="text"
               id="userName"
               name="userName"
-              value={userIput.userName}
-              onChange={onChangeHandler}
+              ref={usernameInputRef}
             />
           </div>
           <div className={classes["input-group"]}>
@@ -75,8 +68,7 @@ const AddUser = ({ handleUsers }) => {
               type="number"
               id="age"
               name="age"
-              value={userIput.age}
-              onChange={onChangeHandler}
+              ref={ageInputRef}
             />
           </div>
           <Button type="submit">Add User</Button>

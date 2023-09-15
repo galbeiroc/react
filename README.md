@@ -694,3 +694,48 @@ const ErrorModal = ({ message, title, onErrorHandler }) => {
 
 export default ErrorModal;
 ```
+
+* refs: we can set up a connection between a HTML element which is being rendered in the end and our other `JS` code.
+
+```js
+const AddUser = ({ handleUsers }) => {
+  const usernameInputRef = useRef();
+  const ageInputRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredAge  = ageInputRef.current.value;
+
+    handleUsers({ userName: enteredUsername, age: enteredAge});
+    usernameInputRef.current.value = '';
+    ageInputRef.current.value = '';
+  }
+
+  return (
+    <Card classes={classes["content-form"]}>
+      <form onSubmit={onSubmit}>
+        <div className={classes["input-group"]}>
+          <label htmlFor="userName">Username</label>
+          <input
+            type="text"
+            id="userName"
+            name="userName"
+            ref={usernameInputRef}
+          />
+        </div>
+        <div className={classes["input-group"]}>
+          <label htmlFor="age">Age (Years)</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            ref={ageInputRef}
+          />
+        </div>
+        <Button type="submit">Add User</Button>
+      </form>
+    </Card>
+  );
+};
+```
