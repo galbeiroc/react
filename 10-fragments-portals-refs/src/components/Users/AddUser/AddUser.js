@@ -13,12 +13,9 @@ const AddUser = ({ handleUsers }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const enteredUsername = usernameInputRef.current.value;
-    const enteredAge  = ageInputRef.current.value;
+    const enteredAge = ageInputRef.current.value;
 
-    if (
-      enteredUsername.trim().length === 0 ||
-      enteredAge.trim().length === 0
-    ) {
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
       setError({
         title: "Invalid Input",
         message: "Please enter a valid name and age (non-empty values).",
@@ -33,9 +30,9 @@ const AddUser = ({ handleUsers }) => {
       return;
     }
 
-    handleUsers({ userName: enteredUsername, age: enteredAge});
-    usernameInputRef.current.value = '';
-    ageInputRef.current.value = '';
+    handleUsers({ userName: enteredUsername, age: enteredAge });
+    usernameInputRef.current.value = "";
+    ageInputRef.current.value = "";
   };
 
   const onErrorHandler = () => {
@@ -64,12 +61,7 @@ const AddUser = ({ handleUsers }) => {
           </div>
           <div className={classes["input-group"]}>
             <label htmlFor="age">Age (Years)</label>
-            <input
-              type="number"
-              id="age"
-              name="age"
-              ref={ageInputRef}
-            />
+            <input type="number" id="age" name="age" ref={ageInputRef} />
           </div>
           <Button type="submit">Add User</Button>
         </form>

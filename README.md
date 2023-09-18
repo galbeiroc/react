@@ -739,3 +739,12 @@ const AddUser = ({ handleUsers }) => {
   );
 };
 ```
+
+##### Controlled vs Uncontrolled Components
+
+The approach of usings refs to interact with DOM elements specifically with inputs elements also has a special name. we're talking about `uncontrolled` components If we access values with `refs`. It is uncontrolled because they're internal state so to value which is reflected in them is not controlled by react.
+
+```js
+<label htmlFor="userName">Username</label>
+<input type="text" id="userName" name="userName" ref={usernameInputRef} />
+```
