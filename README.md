@@ -745,6 +745,33 @@ const AddUser = ({ handleUsers }) => {
 The approach of usings refs to interact with DOM elements specifically with inputs elements also has a special name. we're talking about `uncontrolled` components If we access values with `refs`. It is uncontrolled because they're internal state so to value which is reflected in them is not controlled by react.
 
 ```js
-<label htmlFor="userName">Username</label>
-<input type="text" id="userName" name="userName" ref={usernameInputRef} />
+import { useRef } from "react";
+
+const AddUser = ({ handleUsers }) => {
+  const usernameInputRef = useRef();
+
+  return (
+    <form>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" ref={usernameInputRef} />
+    </form>
+  )
+};
+```
+
+The `controlled` approach inputs fields are controlled components, because internal `state` is controlled by react.
+
+```js
+import { useState } from "react";
+
+const AddUser = ({ handleUsers }) => {
+  const [username, setUsername] = useState(');
+
+  return (
+    <form>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" value={username} />
+    </form>
+  )
+};
 ```
