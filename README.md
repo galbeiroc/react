@@ -605,3 +605,173 @@ We can use **break points**. Which are another useful tool for analyzing our cod
 * Using the React DevTools: we need to install *React Developer Tools* extension for the browser. Then in the browser we have to new options `Components` and `Profiler`.
 
 <img alt="Analyze code flow" src="./08-debugging-react-apps/src/assets/react devtools.png">
+
+#### Fragments, Portals & Refs
+
+This feature help us write cleaner HTML code.
+
+* Fragments: We can't return more than one "root" JSX element (we also can't store more than one "root" JSX element in a variable). Fragment is an empty wrapper component. It doesn't render any real `HTML` element to the DOM.
+
+There are two ways to use fragments:
+
+```js
+return (
+  <React.Fragment>
+    <h1>Hi There!</h1>
+    <p>This does work</p>
+  </React.Fragment>
+)
+```
+
+```js
+return (
+  <>
+    <h1>Hi There!</h1>
+    <p>This does work</p>
+  </>
+)
+```
+
+This is how to work fragments under the hood.
+
+```js
+const wrapper = props => props.children;
+```
+
+* Portals: Let's us render some children into a different part of the DOM.
+`createPortal(children, domNode, key?)`
+
+// index.html
+
+```html
+<div id="backdrop-root"></div>
+<div id="overlay-root"></div>
+<div id="root"></div>
+```
+
+// ErrorModal
+
+```js
+import { createPortal } from "react-dom";
+import Button from "../Button/Button";
+import Card from "../Card/Card";
+import classes from "./ErroModal.module.css";
+
+const Backdrop = ({ onErrorHandler }) => {
+  return <div className={classes.modal} onClick={onErrorHandler} />;
+};
+
+const ModalOverlay = ({ message, title, onErrorHandler }) => {
+  return (
+    <Card classes={classes["content-modal"]}>
+      <div className={classes["header-modal"]}>{title}</div>
+      <div className={classes["body-modal"]}>{message}</div>
+      <div className={classes["footer-modal"]}>
+        <Button onClick={onErrorHandler}>Cerrar</Button>
+      </div>
+    </Card>
+  );
+};
+
+const ErrorModal = ({ message, title, onErrorHandler }) => {
+  return (
+    <>
+      {createPortal(
+        <Backdrop onErrorHandler={onErrorHandler} />,
+        document.getElementById("backdrop-root")
+      )}
+      {createPortal(
+        <ModalOverlay
+          message={message}
+          title={title}
+          onErrorHandler={onErrorHandler}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </>
+  );
+};
+
+export default ErrorModal;
+```
+
+* refs: we can set up a connection between a HTML element which is being rendered in the end and our other `JS` code.
+
+```js
+const AddUser = ({ handleUsers }) => {
+  const usernameInputRef = useRef();
+  const ageInputRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredAge  = ageInputRef.current.value;
+
+    handleUsers({ userName: enteredUsername, age: enteredAge});
+    usernameInputRef.current.value = '';
+    ageInputRef.current.value = '';
+  }
+
+  return (
+    <Card classes={classes["content-form"]}>
+      <form onSubmit={onSubmit}>
+        <div className={classes["input-group"]}>
+          <label htmlFor="userName">Username</label>
+          <input
+            type="text"
+            id="userName"
+            name="userName"
+            ref={usernameInputRef}
+          />
+        </div>
+        <div className={classes["input-group"]}>
+          <label htmlFor="age">Age (Years)</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            ref={ageInputRef}
+          />
+        </div>
+        <Button type="submit">Add User</Button>
+      </form>
+    </Card>
+  );
+};
+```
+
+##### Controlled vs Uncontrolled Components
+
+The approach of usings refs to interact with DOM elements specifically with inputs elements also has a special name. we're talking about `uncontrolled` components If we access values with `refs`. It is uncontrolled because they're internal state so to value which is reflected in them is not controlled by react.
+
+```js
+import { useRef } from "react";
+
+const AddUser = ({ handleUsers }) => {
+  const usernameInputRef = useRef();
+
+  return (
+    <form>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" ref={usernameInputRef} />
+    </form>
+  )
+};
+```
+
+The `controlled` approach inputs fields are controlled components, because internal `state` is controlled by react.
+
+```js
+import { useState } from "react";
+
+const AddUser = ({ handleUsers }) => {
+  const [username, setUsername] = useState(');
+
+  return (
+    <form>
+      <label htmlFor="username">Username</label>
+      <input type="text" id="username" name="username" value={username} />
+    </form>
+  )
+};
+```
