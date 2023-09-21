@@ -775,3 +775,11 @@ const AddUser = ({ handleUsers }) => {
   )
 };
 ```
+
+#### Effects, Reducers & Context
+
+* The useEffect hook is simply another built in hook. Another function we can run inside our funcional component. That will do somthing especial.
+
+`useEffect(() => { ... }, [dependencies]);`
+
+The useEffect hook is called with two arguments. The first argument is function that should be executed after every component evaluation. If the specified dependencies changed. Dependencies changed are The second argument that we pass in, that's an array full of dependencies. Whenever such a dependency changes that first function will re-run.
