@@ -856,3 +856,18 @@ In this example:
 * `myTimer` is NOT added as a dependency because it's not a component-internal variable (i.e. not some state or a prop value) - it's defined outside of the component and changing it (no matter where) wouldn't cause the component to be re-evaluated
 
 * `setTimeout` is NOT added as a dependency because it's a built-in API (built-into the browser) - it's independent from React and your components, it doesn't change
+
+1. Clean up function
+It runs before every new side effect function execution. Execept for the very first time when useEffect runs.
+
+```js
+useEffect(() => {
+  const identifier = setTimeout(() => {
+    setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+  }, 500);
+
+  return () => { // cleanup func
+    clearTimeout(identifier);
+  }
+}, [enteredEmail, enteredPassword]);
+```
