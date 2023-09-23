@@ -882,3 +882,53 @@ The `useReducer` is another built in hook and it will help us with state managem
 
 `useReducer` always returns an Array with exactly two values and therefore we can use destructuring. The first value is the latest state snapshot, beacuse this state management mechanism. The second value we have function that allow us to update that state snapshot. So that is kind of the same as for  `useState`. Though the state updating is function will work differently. Instead of setting a new state value. We will dispacth an action. That action will be consumed by the first argument we pass to `useReducer` a so-called *reducer function*.
 `(prevState, action) => newState`
+
+```js
+const emailReducer = (state, action) => {
+  if (action.type === 'EMAIL_INPUT') {
+    return { value: action.val, isValid: action.val.includes('@') };
+  }
+  if (action.type === 'ISVALID_EMAIL') {
+    return { value: state.value, isValid: state.value.includes('@') };
+  }
+  return { value: '', isValid: false };
+}
+
+const Login = (props) => {
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: '',
+    isValid: null
+  });
+
+  const emailChangeHandler = (event) => {
+    dispatchEmail({ type: 'EMAIL_INPUT', val: event.target.value });
+
+    setFormIsValid(event.target.value.includes('@'));
+  };
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: 'ISVALID_EMAIL' });
+  };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.onLogin(emailState.value);
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form onSubmit={submitHandler}>
+        <label htmlFor="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            value={emailState.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+        <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          Login
+        </Button>
+      </form>
+    </Card>
+  )
+}
+```
