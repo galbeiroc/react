@@ -778,7 +778,9 @@ const AddUser = ({ handleUsers }) => {
 
 #### Effects, Reducers & Context
 
-* The useEffect hook is simply another built in hook. Another function we can run inside our funcional component. That will do somthing especial.
+##### useEffect
+
+The `useEffect` hook is simply another built in hook. Another function we can run inside our funcional component. That will do somthing especial.
 
 `useEffect(() => { ... }, [dependencies]);`
 
@@ -792,7 +794,7 @@ useEffect(() => {
 });
 ```
 
-1. An empty array:
+2. An empty array:
 
 ```js
 useEffect(() => {
@@ -800,7 +802,7 @@ useEffect(() => {
 }, []);
 ```
 
-1. Props or state values:
+3. Props or state values:
 
 ```js
 useEffect(() => {
@@ -816,9 +818,9 @@ That is correct, but there are a few exceptions you should be aware of:
 
 * We **DON'T need to add state updating functions** (as we did in the last lecture with `setFormIsValid`): *React* guarantees that those functions never change, hence We don't need to add them as dependencies (we could though).
 
-We also **DON'T need to add "built-in" APIs or functions** like `fetch()`, `localStorage` etc (functions and features built-into the browser and hence available globally): These browser APIs / global functions are not related to the React component render cycle and they also never change
+* We also **DON'T need to add "built-in" APIs or functions** like `fetch()`, `localStorage` etc (functions and features built-into the browser and hence available globally): These browser APIs / global functions are not related to the React component render cycle and they also never change
 
-We also **DON'T need to add variables or functions** we might've **defined OUTSIDE of your components** (e.g. if we create a new helper function in a separate file): Such functions or variables also are not created inside of a component function and hence changing them won't affect your components (components won't be re-evaluated if such variables or functions change and vice-versa)
+* We also **DON'T need to add variables or functions** we might've **defined OUTSIDE of your components** (e.g. if we create a new helper function in a separate file): Such functions or variables also are not created inside of a component function and hence changing them won't affect your components (components won't be re-evaluated if such variables or functions change and vice-versa)
 
 So long story short: You must add all "things" we use in your effect function **if those "things" could change because your component (or some parent component) re-rendered**. That's why variables or state defined in component functions, props or functions defined in component functions have to be added as dependencies!
 
@@ -857,7 +859,7 @@ In this example:
 
 * `setTimeout` is NOT added as a dependency because it's a built-in API (built-into the browser) - it's independent from React and your components, it doesn't change
 
-1. Clean up function
+4. Clean up function
 It runs before every new side effect function execution. Execept for the very first time when useEffect runs.
 
 ```js
@@ -871,3 +873,12 @@ useEffect(() => {
   }
 }, [enteredEmail, enteredPassword]);
 ```
+
+##### Reducer
+
+The `useReducer` is another built in hook and it will help us with state management. So it's a bit like `useState` but actually with more capabilities and especially useful for more complex state. `useReducer` can be as a replacement for `useState` if we need "**more powerful state management**".
+
+`const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);`
+
+`useReducer` always returns an Array with exactly two values and therefore we can use destructuring. The first value is the latest state snapshot, beacuse this state management mechanism. The second value we have function that allow us to update that state snapshot. So that is kind of the same as for  `useState`. Though the state updating is function will work differently. Instead of setting a new state value. We will dispacth an action. That action will be consumed by the first argument we pass to `useReducer` a so-called *reducer function*.
+`(prevState, action) => newState`
