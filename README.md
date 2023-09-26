@@ -1058,3 +1058,7 @@ const Navigation = (props) => {
   );
 };
 ```
+
+###### React context limitations
+
+* React Context is NOT optimzed for high frecuency changes!
