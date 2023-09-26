@@ -967,3 +967,94 @@ useEffect(() => {
 **Why?**
 
 Because now the **effect function would re-run whenever ANY property** of `someObject` changes - not just the one property (`someProperty` in the above example) our effect might depend on.
+
+##### Context
+
+React `context` concept allow us to manage state kind of behind the scenes in react such that we actually are able to directly change it from any component in our app without building such a prop chain.
+
+`React.createContext();` it creates such a Context object in the end. `createContext` takes a default context.
+
+```js
+import React from "react";
+
+const AuthContext = React.createContext({
+  isLoggedIn: false
+});
+
+export default AuthContext;
+```
+
+Using  context in our app. We need to do two things.
+
+1. We need to provide it. All the components that are wrapped by it. Providing means that we need to wrap `JSX` code all the components  should be able to tap into that `context`.
+
+```js
+// app.js
+<AuthContext.Provider>
+  <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+  <main>
+    {!isLoggedIn && <Login onLogin={loginHandler} />}
+    {isLoggedIn && <Home onLogout={logoutHandler} />}
+  </main>
+</AuthContext.Provider>
+```
+
+2. We need to consume it. Listen to it. We can listen in two ways: `AuthContext.Consumer` or `useContext`.
+
+2.1. Using `AuthContext.Consumer`.
+
+```js
+<AuthContext.Consumer>
+  {(ctx) => (
+    <nav className={classes.nav}>
+      <ul>
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Users</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Admin</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <button onClick={props.onLogout}>Logout</button>
+          </li>
+        )}
+      </ul>
+    </nav>
+  )}
+</AuthContext.Consumer>
+```
+
+2.2. Using `useContext`:
+
+```js
+const Navigation = (props) => {
+  const ctx = useContext(AuthContext);
+
+  return (
+    <nav className={classes.nav}>
+      <ul>
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Users</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Admin</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <button onClick={props.onLogout}>Logout</button>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
+};
+```
