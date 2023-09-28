@@ -972,6 +972,13 @@ Because now the **effect function would re-run whenever ANY property** of `someO
 
 React `context` concept allow us to manage state kind of behind the scenes in react such that we actually are able to directly change it from any component in our app without building such a prop chain.
 
+`const SomeContext = createContext(defaultValue)`
+
+* Reference
+  * createContext(defaultValue)
+  * SomeContext.Provider
+  * SomeContext.Consumer
+
 `React.createContext();` it creates such a Context object in the end. `createContext` takes a default context.
 
 ```js
@@ -1067,3 +1074,120 @@ const Navigation = (props) => {
 
 * Only call react hooks in **React Functions** or **Custom Hooks**.
 * Only Call react hooks at the top level react components functions. Don't call them in nested functions. Don't call them in any block statements.
+
+###### Diving Into Forwards Refs and useImperativeHandle
+
+`useImperativeHandle` is a hook allow us to use a component or functionalities imperatively. Which simple means not through the regular *state*, *props* management. Not by controlling the component through *state* in the parent component but insteadby directly calling or manipulating something in the component programatically.
+
+`useImperativeHandle` is a React Hook that lets you customize the handle exposed as a `ref`.
+
+`useImperativeHandle(ref, createHandle, dependencies?)`
+
+* Usage:
+  * Exposing a custom ref handle to the parent component.
+  * Exposing our own imperative methods.
+
+`forwardRef` lets our component expose a **DOM** node to parent component with a `ref`. Our react component is capable of being bound to a ref.
+
+```js
+// parent component
+const Login = () => {
+  .
+  .
+  const emailInputRef = useRef(); // ref to Input component for emailInput
+  const passwordInputRef = useRef(); // ref to Input component for passwordInput
+
+  .
+  .
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (formIsValid) {
+      authCtx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailState.isValid) {
+      emailInputRef.current.focus(); // imperative method from child component
+    } else {
+      passwordInputRef.current.focus(); // imperative method from child component
+    }
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form onSubmit={submitHandler}>
+        <Input
+          ref={emailInputRef}  // binding ref with forwardRef
+          label="E-mail"
+          isValid={emailState.isValid}
+          type="email"
+          value={emailState.value}
+          onChangeHandler={emailChangeHandler}
+          validateInputHandle={validateEmailHandler}
+        />
+        <Input
+          ref={passwordInputRef} // binding ref with forwardRef
+          label="Password"
+          isValid={passwordState.isValid}
+          type="password"
+          value={passwordState.value}
+          onChangeHandler={passwordChangeHandler}
+          validateInputHandler={validatePasswordHandler}
+        />
+        <div className={classes.actions}>
+          <Button type="submit" className={classes.btn}>
+            Login
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+export default Login;
+```
+
+```js
+// child component
+import { useImperativeHandle, useRef, forwardRef } from "react";
+import classes from "./Input.module.css";
+
+const Input = forwardRef(
+  (
+    { label, isValid, type, value, onChangeHandler, validateInputHandler },
+    ref // forwardRef point to this reference
+  ) => {
+    const inputRef = useRef(); // ref to input tag html
+
+    const activate = () => { // activate function to expose focus input
+      inputRef.current.focus();
+    };
+
+    useImperativeHandle(ref, () => {
+      return {
+        focus: activate, // functionality to expose
+      };
+    });
+
+    return (
+      <div
+        className={`${classes.control} ${
+          isValid === false ? classes.invalid : ""
+        }`}
+      >
+        <label htmlFor={type}>{label}</label>
+        <input
+          ref={inputRef} // ref to this input
+          type={type}
+          id={type}
+          value={value}
+          onChange={onChangeHandler}
+          onBlur={validateInputHandler}
+        />
+      </div>
+    );
+  }
+);
+
+export default Input;
+```
+
+With `useImperativeHandle` and `forwardRef` we can expose funcionalities from react component to its parent component. then use our component in the parent component through `refs` and trigger certain functionalities.
