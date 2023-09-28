@@ -1062,3 +1062,8 @@ const Navigation = (props) => {
 ###### React context limitations
 
 * React Context is NOT optimzed for high frecuency changes!
+
+###### Rules of Hooks
+
+* Only call react hooks in **React Functions** or **Custom Hooks**.
+* Only Call react hooks at the top level react components functions. Don't call them in nested functions. Don't call them in any block statements.
