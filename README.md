@@ -775,3 +775,419 @@ const AddUser = ({ handleUsers }) => {
   )
 };
 ```
+
+#### Effects, Reducers & Context
+
+##### useEffect
+
+The `useEffect` hook is simply another built in hook. Another function we can run inside our funcional component. That will do somthing especial.
+
+`useEffect(() => { ... }, [dependencies]);`
+
+The useEffect hook is called with two arguments. The first argument is function that should be executed after every component evaluation. If the specified dependencies changed. Dependencies changed are The second argument that we pass in, that's an array full of dependencies. Whenever such a dependency changes that first function will re-run.
+
+1. No dependency passed:
+
+```js
+useEffect(() => {
+    // Runs on every render
+});
+```
+
+2. An empty array:
+
+```js
+useEffect(() => {
+  // Runs only on the first render
+}, []);
+```
+
+3. Props or state values:
+
+```js
+useEffect(() => {
+  // Runs on the first render
+  // And any time any dependency value changes
+}, [prop, state]);
+```
+
+**What to add & Not to add as Dependencies**
+We learned, that we should add "everything" we use in the effect function as a dependency - i.e. all state variables and functions you use in there.
+
+That is correct, but there are a few exceptions you should be aware of:
+
+* We **DON'T need to add state updating functions** (as we did in the last lecture with `setFormIsValid`): *React* guarantees that those functions never change, hence We don't need to add them as dependencies (we could though).
+
+* We also **DON'T need to add "built-in" APIs or functions** like `fetch()`, `localStorage` etc (functions and features built-into the browser and hence available globally): These browser APIs / global functions are not related to the React component render cycle and they also never change
+
+* We also **DON'T need to add variables or functions** we might've **defined OUTSIDE of your components** (e.g. if we create a new helper function in a separate file): Such functions or variables also are not created inside of a component function and hence changing them won't affect your components (components won't be re-evaluated if such variables or functions change and vice-versa)
+
+So long story short: You must add all "things" we use in your effect function **if those "things" could change because your component (or some parent component) re-rendered**. That's why variables or state defined in component functions, props or functions defined in component functions have to be added as dependencies!
+
+Here's a made-up dummy example to further clarify the above-mentioned scenarios:
+
+```js
+import { useEffect, useState } from 'react';
+
+let myTimer;
+
+const MyComponent = (props) => {
+  const [timerIsActive, setTimerIsActive] = useState(false);
+
+  const { timerDuration } = props; // using destructuring to pull out specific props values
+
+  useEffect(() => {
+    if (!timerIsActive) {
+      setTimerIsActive(true);
+      myTimer = setTimeout(() => {
+        setTimerIsActive(false);
+      }, timerDuration);
+    }
+  }, [timerIsActive, timerDuration]);
+};
+```
+
+In this example:
+
+* `timerIsActive` is added as a dependency because it's component state that may change when the component changes (e.g. because the state was updated)
+
+* `timerDuration` is added as a dependency because it's a prop value of that component - so it may change if a parent component changes that value (causing this MyComponent component to re-render as well)
+
+* `setTimerIsActive` is NOT added as a dependency because it's that exception: State updating functions could be added but don't have to be added since React guarantees that the functions themselves never change
+
+* `myTimer` is NOT added as a dependency because it's not a component-internal variable (i.e. not some state or a prop value) - it's defined outside of the component and changing it (no matter where) wouldn't cause the component to be re-evaluated
+
+* `setTimeout` is NOT added as a dependency because it's a built-in API (built-into the browser) - it's independent from React and your components, it doesn't change
+
+4. Clean up function
+It runs before every new side effect function execution. Execept for the very first time when useEffect runs.
+
+```js
+useEffect(() => {
+  const identifier = setTimeout(() => {
+    setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+  }, 500);
+
+  return () => { // cleanup func
+    clearTimeout(identifier);
+  }
+}, [enteredEmail, enteredPassword]);
+```
+
+##### Reducer
+
+The `useReducer` is another built in hook and it will help us with state management. So it's a bit like `useState` but actually with more capabilities and especially useful for more complex state. `useReducer` can be as a replacement for `useState` if we need "**more powerful state management**".
+
+`const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);`
+
+`useReducer` always returns an Array with exactly two values and therefore we can use destructuring. The first value is the latest state snapshot, beacuse this state management mechanism. The second value we have function that allow us to update that state snapshot. So that is kind of the same as for  `useState`. Though the state updating is function will work differently. Instead of setting a new state value. We will dispacth an action. That action will be consumed by the first argument we pass to `useReducer` a so-called *reducer function*.
+`(prevState, action) => newState`
+
+```js
+const emailReducer = (state, action) => {
+  if (action.type === 'EMAIL_INPUT') {
+    return { value: action.val, isValid: action.val.includes('@') };
+  }
+  if (action.type === 'ISVALID_EMAIL') {
+    return { value: state.value, isValid: state.value.includes('@') };
+  }
+  return { value: '', isValid: false };
+}
+
+const Login = (props) => {
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: '',
+    isValid: null
+  });
+
+  const emailChangeHandler = (event) => {
+    dispatchEmail({ type: 'EMAIL_INPUT', val: event.target.value });
+
+    setFormIsValid(event.target.value.includes('@'));
+  };
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: 'ISVALID_EMAIL' });
+  };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.onLogin(emailState.value);
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form onSubmit={submitHandler}>
+        <label htmlFor="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            value={emailState.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+        <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          Login
+        </Button>
+      </form>
+    </Card>
+  )
+}
+```
+
+###### Adding Nested Properties As Dependencies To `useEffect`
+
+```js
+const { someProperty } = someObject;
+useEffect(() => {
+  // code that only uses someProperty ...
+}, [someProperty]);
+```
+
+This is a **very common pattern and approach**, which is why we typically use it and why we show it here (We will keep on using it throughout the course).
+
+We just want to point out, that they **key thing is NOT that we use destructuring** but that **we pass specific properties instead of the entire object** as a dependency.
+
+We could also write this code and it would **work in the same way**.
+
+```js
+useEffect(() => {
+  // code that only uses someProperty ...
+}, [someObject.someProperty]);
+```
+
+This works just fine as well!
+
+But you should **avoid** this code:
+
+```js
+useEffect(() => {
+  // code that only uses someProperty ...
+}, [someObject]);
+```
+
+**Why?**
+
+Because now the **effect function would re-run whenever ANY property** of `someObject` changes - not just the one property (`someProperty` in the above example) our effect might depend on.
+
+##### Context
+
+React `context` concept allow us to manage state kind of behind the scenes in react such that we actually are able to directly change it from any component in our app without building such a prop chain.
+
+`const SomeContext = createContext(defaultValue)`
+
+* Reference
+  * createContext(defaultValue)
+  * SomeContext.Provider
+  * SomeContext.Consumer
+
+`React.createContext();` it creates such a Context object in the end. `createContext` takes a default context.
+
+```js
+import React from "react";
+
+const AuthContext = React.createContext({
+  isLoggedIn: false
+});
+
+export default AuthContext;
+```
+
+Using  context in our app. We need to do two things.
+
+1. We need to provide it. All the components that are wrapped by it. Providing means that we need to wrap `JSX` code all the components  should be able to tap into that `context`.
+
+```js
+// app.js
+<AuthContext.Provider>
+  <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+  <main>
+    {!isLoggedIn && <Login onLogin={loginHandler} />}
+    {isLoggedIn && <Home onLogout={logoutHandler} />}
+  </main>
+</AuthContext.Provider>
+```
+
+2. We need to consume it. Listen to it. We can listen in two ways: `AuthContext.Consumer` or `useContext`.
+
+2.1. Using `AuthContext.Consumer`.
+
+```js
+<AuthContext.Consumer>
+  {(ctx) => (
+    <nav className={classes.nav}>
+      <ul>
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Users</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Admin</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <button onClick={props.onLogout}>Logout</button>
+          </li>
+        )}
+      </ul>
+    </nav>
+  )}
+</AuthContext.Consumer>
+```
+
+2.2. Using `useContext`:
+
+```js
+const Navigation = (props) => {
+  const ctx = useContext(AuthContext);
+
+  return (
+    <nav className={classes.nav}>
+      <ul>
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Users</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <a href="/">Admin</a>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
+            <button onClick={props.onLogout}>Logout</button>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
+};
+```
+
+###### React context limitations
+
+* React Context is NOT optimzed for high frecuency changes!
+
+###### Rules of Hooks
+
+* Only call react hooks in **React Functions** or **Custom Hooks**.
+* Only Call react hooks at the top level react components functions. Don't call them in nested functions. Don't call them in any block statements.
+
+###### Diving Into Forwards Refs and useImperativeHandle
+
+`useImperativeHandle` is a hook allow us to use a component or functionalities imperatively. Which simple means not through the regular *state*, *props* management. Not by controlling the component through *state* in the parent component but insteadby directly calling or manipulating something in the component programatically.
+
+`useImperativeHandle` is a React Hook that lets you customize the handle exposed as a `ref`.
+
+`useImperativeHandle(ref, createHandle, dependencies?)`
+
+* Usage:
+  * Exposing a custom ref handle to the parent component.
+  * Exposing our own imperative methods.
+
+`forwardRef` lets our component expose a **DOM** node to parent component with a `ref`. Our react component is capable of being bound to a ref.
+
+```js
+// parent component
+const Login = () => {
+  .
+  .
+  const emailInputRef = useRef(); // ref to Input component for emailInput
+  const passwordInputRef = useRef(); // ref to Input component for passwordInput
+
+  .
+  .
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (formIsValid) {
+      authCtx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailState.isValid) {
+      emailInputRef.current.focus(); // imperative method from child component
+    } else {
+      passwordInputRef.current.focus(); // imperative method from child component
+    }
+  };
+
+  return (
+    <Card className={classes.login}>
+      <form onSubmit={submitHandler}>
+        <Input
+          ref={emailInputRef}  // binding ref with forwardRef
+          label="E-mail"
+          isValid={emailState.isValid}
+          type="email"
+          value={emailState.value}
+          onChangeHandler={emailChangeHandler}
+          validateInputHandle={validateEmailHandler}
+        />
+        <Input
+          ref={passwordInputRef} // binding ref with forwardRef
+          label="Password"
+          isValid={passwordState.isValid}
+          type="password"
+          value={passwordState.value}
+          onChangeHandler={passwordChangeHandler}
+          validateInputHandler={validatePasswordHandler}
+        />
+        <div className={classes.actions}>
+          <Button type="submit" className={classes.btn}>
+            Login
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+export default Login;
+```
+
+```js
+// child component
+import { useImperativeHandle, useRef, forwardRef } from "react";
+import classes from "./Input.module.css";
+
+const Input = forwardRef(
+  (
+    { label, isValid, type, value, onChangeHandler, validateInputHandler },
+    ref // forwardRef point to this reference
+  ) => {
+    const inputRef = useRef(); // ref to input tag html
+
+    const activate = () => { // activate function to expose focus input
+      inputRef.current.focus();
+    };
+
+    useImperativeHandle(ref, () => {
+      return {
+        focus: activate, // functionality to expose
+      };
+    });
+
+    return (
+      <div
+        className={`${classes.control} ${
+          isValid === false ? classes.invalid : ""
+        }`}
+      >
+        <label htmlFor={type}>{label}</label>
+        <input
+          ref={inputRef} // ref to this input
+          type={type}
+          id={type}
+          value={value}
+          onChange={onChangeHandler}
+          onBlur={validateInputHandler}
+        />
+      </div>
+    );
+  }
+);
+
+export default Input;
+```
+
+With `useImperativeHandle` and `forwardRef` we can expose funcionalities from react component to its parent component. then use our component in the parent component through `refs` and trigger certain functionalities.
