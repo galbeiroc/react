@@ -1,8 +1,8 @@
 import classes from "./Cart.module.css";
 
-const Cart = (props) => {
+const Cart = () => {
   const cartItems = (
-    <ul className={classes["cart-items"]}>
+    <ul className={classes['cart-items']}>
       {[{ id: "c1", name: "Sushi", amount: 2, price: 12.99 }].map((item) => (
         <li key={item.id}>{item.name}</li>
       ))}
@@ -10,7 +10,7 @@ const Cart = (props) => {
   );
 
   return (
-    <div className={classes}>
+    <div>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
