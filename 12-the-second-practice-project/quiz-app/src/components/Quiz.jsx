@@ -1,18 +1,37 @@
 import { useCallback, useState } from "react";
 
+import QuestionTimer from "./QuestionTimer";
+
 import quizCompleteImg from "../assets/quiz-complete.png";
 import QUESTIONS from "../question";
-import QuestionTimer from "./QuestionTimer";
 
 function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
+  const [answerState, setAnswerState] = useState("");
 
-  const acitveQuestionIndex = userAnswers.length;
+  const acitveQuestionIndex =
+    answerState === "" ? userAnswers.length : userAnswers.length - 1;
   const quizIsCompleted = acitveQuestionIndex === QUESTIONS.length;
 
-  const handleSelectQuestion = useCallback((selectedAnswer) => {
-    setUserAnswers((prevUserAnswers) => [...prevUserAnswers, selectedAnswer]);
-  }, []);
+  const handleSelectQuestion = useCallback(
+    (selectedAnswer) => {
+      setAnswerState("answered");
+      setUserAnswers((prevUserAnswers) => [...prevUserAnswers, selectedAnswer]);
+
+      setTimeout(() => {
+        if (selectedAnswer === QUESTIONS[acitveQuestionIndex].answers[0]) {
+          setAnswerState("correct");
+        } else {
+          setAnswerState("wrong");
+        }
+        // runs after content timer ends
+        setTimeout(() => {
+          setAnswerState("");
+        }, 2000);
+      }, 1000);
+    },
+    [acitveQuestionIndex]
+  );
 
   const handleSkipAnswer = useCallback(
     () => handleSelectQuestion(null),
@@ -31,6 +50,20 @@ function Quiz() {
   const shuffledAnswers = [...QUESTIONS[acitveQuestionIndex].answers];
   shuffledAnswers.sort(() => Math.random() - 0.5);
 
+  const setAnswerClass = (answer) => {
+    const isSelected = userAnswers[userAnswers.length - 1] === answer;
+    let cssClass = "";
+
+    if (answerState === "answered" && isSelected) {
+      cssClass = "selected";
+    }
+    if ((answerState === "correct" || answerState === "wrong") && isSelected) {
+      cssClass = answerState;
+    }
+
+    return cssClass;
+  };
+
   return (
     <div id="quiz">
       <div id="question">
@@ -43,7 +76,7 @@ function Quiz() {
         <ul id="answers">
           {shuffledAnswers.map((answer) => (
             <li key={answer} className="answer">
-              <button onClick={() => handleSelectQuestion(answer)}>
+              <button onClick={() => handleSelectQuestion(answer)} className={setAnswerClass(answer)}>
                 {answer}
               </button>
             </li>
