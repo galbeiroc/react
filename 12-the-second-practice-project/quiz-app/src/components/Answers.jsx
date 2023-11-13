@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-function Answers({ answers, answerState, selectedAnswer, handleSelectAnswer }) {
+function Answers({ answers, answerState, selectedAnswer, onSelectAnswer }) {
   const shuffledAnswers = useRef();
 
   if (!shuffledAnswers.current) {
@@ -27,7 +27,8 @@ function Answers({ answers, answerState, selectedAnswer, handleSelectAnswer }) {
       {shuffledAnswers.current.map((answer) => (
         <li key={answer} className="answer">
           <button
-            onClick={() => handleSelectAnswer(answer)}
+            disabled={answerState !== ''}
+            onClick={() => onSelectAnswer(answer)}
             className={setAnswerClass(answer)}
           >
             {answer}
