@@ -4,6 +4,8 @@ import QuestionTimer from "./QuestionTimer";
 
 import quizCompleteImg from "../assets/quiz-complete.png";
 import QUESTIONS from "../question";
+import Answers from "./Answers";
+import Question from "./Question";
 
 function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
@@ -13,7 +15,7 @@ function Quiz() {
     answerState === "" ? userAnswers.length : userAnswers.length - 1;
   const quizIsCompleted = acitveQuestionIndex === QUESTIONS.length;
 
-  const handleSelectQuestion = useCallback(
+  const handleSelectAnswer = useCallback(
     (selectedAnswer) => {
       setAnswerState("answered");
       setUserAnswers((prevUserAnswers) => [...prevUserAnswers, selectedAnswer]);
@@ -34,8 +36,8 @@ function Quiz() {
   );
 
   const handleSkipAnswer = useCallback(
-    () => handleSelectQuestion(null),
-    [handleSelectQuestion]
+    () => handleSelectAnswer(null),
+    [handleSelectAnswer]
   );
 
   if (quizIsCompleted) {
@@ -47,42 +49,17 @@ function Quiz() {
     );
   }
 
-  const shuffledAnswers = [...QUESTIONS[acitveQuestionIndex].answers];
-  shuffledAnswers.sort(() => Math.random() - 0.5);
-
-  const setAnswerClass = (answer) => {
-    const isSelected = userAnswers[userAnswers.length - 1] === answer;
-    let cssClass = "";
-
-    if (answerState === "answered" && isSelected) {
-      cssClass = "selected";
-    }
-    if ((answerState === "correct" || answerState === "wrong") && isSelected) {
-      cssClass = answerState;
-    }
-
-    return cssClass;
-  };
-
   return (
     <div id="quiz">
-      <div id="question">
-        <QuestionTimer
-          key={acitveQuestionIndex}
-          timeout={10000}
-          onTimeout={handleSkipAnswer}
-        />
-        <h2>{QUESTIONS[acitveQuestionIndex].text}</h2>
-        <ul id="answers">
-          {shuffledAnswers.map((answer) => (
-            <li key={answer} className="answer">
-              <button onClick={() => handleSelectQuestion(answer)} className={setAnswerClass(answer)}>
-                {answer}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Question
+        key={acitveQuestionIndex}
+        answers={QUESTIONS[acitveQuestionIndex].answers}
+        answerState={answerState}
+        questionText={QUESTIONS[acitveQuestionIndex].text}
+        selectedAnswer={userAnswers[userAnswers.length - 1]}
+        handleSelectAnswer={handleSelectAnswer}
+        handleSkipAnswer={handleSkipAnswer}
+      />
     </div>
   );
 }
