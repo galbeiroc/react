@@ -29,7 +29,7 @@ function Question({ index, onSelectAnswer, onSkipAnswer }) {
     }, 1000);
 
     setTimeout(() => {
-      onSelectAnswer(answer);
+      onSelectAnswer(selectedAnswer);
     }, 2000);
   };
 

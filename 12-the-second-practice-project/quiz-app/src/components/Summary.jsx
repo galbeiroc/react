@@ -3,12 +3,12 @@ import QUESTION from "../question";
 import quizCompleteImg from "../assets/quiz-complete.png";
 
 function Summary({ userAnswers }) {
-  const setAnswerClass = (answer) => {
+  const setAnswerClass = (answer, index) => {
     let cssClass = "user-answer ";
 
     if (answer === null) {
       cssClass += "skipped";
-    } else if (answer === "correct") {
+    } else if (answer === QUESTION[index].answers[0]) {
       cssClass += "correct";
     } else {
       cssClass += "wrong";
@@ -17,21 +17,30 @@ function Summary({ userAnswers }) {
     return cssClass;
   };
 
+  const skippedAnswers = userAnswers.filter((answer) => answer === null);
+  const correctAnswers = userAnswers.filter(
+    (answer, index) => answer === QUESTION[index].answers[0]
+  );
+
+  const skippedAnswersShare = Math.round((skippedAnswers.length / userAnswers.length) * 100);
+  const correctAnswersShare = Math.round((correctAnswers.length / userAnswers.length) * 100);
+  const wrongAnswersShare = 100 - correctAnswersShare - skippedAnswersShare;
+
   return (
     <div id="summary">
       <img src={quizCompleteImg} alt="quiz complete" />
       <h2>Quiz Completed!!</h2>
       <div id="summary-stats">
         <p>
-          <span className="number">10%</span>
+          <span className="number">{skippedAnswersShare}%</span>
           <span className="text">skipped</span>
         </p>
         <p>
-          <span className="number">10%</span>
+          <span className="number">{correctAnswersShare}%</span>
           <span className="text">answered correctly</span>
         </p>
         <p>
-          <span className="number">10%</span>
+          <span className="number">{wrongAnswersShare}%</span>
           <span className="text">answered incorrectly</span>
         </p>
       </div>
@@ -40,7 +49,9 @@ function Summary({ userAnswers }) {
           <li key={`${answer}-${index}`}>
             <h3>{index + 1}</h3>
             <p className="question">{QUESTION[index].text}</p>
-            <p className={setAnswerClass(answer)}>{answer ?? "Skipped"}</p>
+            <p className={setAnswerClass(answer, index)}>
+              {answer ?? "Skipped"}
+            </p>
           </li>
         ))}
       </ol>
